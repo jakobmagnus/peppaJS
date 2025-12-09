@@ -140,7 +140,7 @@ function createPen(options) {
     // Find the closest element with data-oink
     let target = ev.target;
     while (target && target !== root) {
-      if (target.hasAttribute && target.hasAttribute("data-oink")) {
+      if (target.hasAttribute("data-oink")) {
         const actionName = target.getAttribute("data-oink");
         const expectedEvent = target.getAttribute("data-oink-event") || "click";
         
@@ -196,14 +196,31 @@ function createPen(options) {
   }
 
   // MudPuddle Router: listen for hash changes
+  let hashChangeHandler = null;
   if (routes) {
-    window.addEventListener("hashchange", function () {
+    hashChangeHandler = function () {
       updateState({ route: getCurrentRoute() });
-    });
+    };
+    window.addEventListener("hashchange", hashChangeHandler);
   }
 
   // Initial render
   render();
+
+  function destroy() {
+    // Remove event delegation listeners
+    delegatedEvents.forEach((eventType) => {
+      root.removeEventListener(eventType, handleDelegatedEvent);
+    });
+    
+    // Remove hash change listener
+    if (hashChangeHandler) {
+      window.removeEventListener("hashchange", hashChangeHandler);
+    }
+    
+    // Clear the root element
+    root.innerHTML = "";
+  }
 
   return {
     getState,
@@ -211,7 +228,8 @@ function createPen(options) {
     snort,
     on,
     emit,
-    root
+    root,
+    destroy
   };
 }
 
