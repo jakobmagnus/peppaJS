@@ -47,7 +47,15 @@ function Piglet(name, renderFn) {
  *  - state: initial state object
  *  - actions: { [name]: (state, payload) => newPartialState | void }
  *  - view: (state, helpers) => HTML string
- *  - routes: optional { [path]: component } for MudPuddle router
+ *  - routes: optional object mapping route paths to components for MudPuddle router.
+ *      Keys are route paths (e.g., "/", "/about") or "404" for fallback.
+ *      Values are component functions with signature (state, helpers) => HTML string.
+ *      Example:
+ *        {
+ *          "/": HomeComponent,
+ *          "/about": AboutComponent,
+ *          "404": NotFoundComponent
+ *        }
  */
 function createPen(options) {
   let { root, state = {}, actions = {}, view, routes } = options || {};
