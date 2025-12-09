@@ -155,7 +155,7 @@ function createPen(options) {
   function handleDelegatedEvent(ev) {
     // Find the closest element with data-oink
     let target = ev.target;
-    while (target) {
+    while (target && (target === root || root.contains(target))) {
       if (target.hasAttribute("data-oink")) {
         const actionName = target.getAttribute("data-oink");
         const expectedEvent = target.getAttribute("data-oink-event") || "click";
@@ -202,11 +202,18 @@ function createPen(options) {
     if (!routes) return "";
     
     const currentRoute = currentState.route || "/";
-    const component = routes[currentRoute] || routes["404"] || routes["/"];
     
+    // Try to find component: current route -> 404 fallback -> home fallback
+    let component = routes[currentRoute];
     if (!component) {
-      console.warn("[PeppaJS Router] No component found for route:", currentRoute);
-      return "";
+      component = routes["404"];
+      if (!component) {
+        component = routes["/"];
+        if (!component) {
+          console.warn("[PeppaJS Router] No component found for route:", currentRoute, "and no fallback (404 or /) defined");
+          return "";
+        }
+      }
     }
     
     if (typeof component === "function") {
