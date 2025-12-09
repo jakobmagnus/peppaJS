@@ -56,6 +56,14 @@ function Piglet(name, renderFn) {
  *          "/about": AboutComponent,
  *          "404": NotFoundComponent
  *        }
+ * @returns {object} Pen instance with methods:
+ *   - getState(): get current state
+ *   - oink(actionName, payload): dispatch an action
+ *   - snort(callback): schedule async update
+ *   - on(eventName, handler): subscribe to custom events
+ *   - emit(eventName, payload): emit custom events
+ *   - root: the root DOM element
+ *   - destroy(): cleanup and remove all listeners
  */
 function createPen(options) {
   let { root, state = {}, actions = {}, view, routes } = options || {};
@@ -147,7 +155,7 @@ function createPen(options) {
   function handleDelegatedEvent(ev) {
     // Find the closest element with data-oink
     let target = ev.target;
-    while (target && target !== root) {
+    while (target) {
       if (target.hasAttribute("data-oink")) {
         const actionName = target.getAttribute("data-oink");
         const expectedEvent = target.getAttribute("data-oink-event") || "click";
@@ -168,6 +176,9 @@ function createPen(options) {
           break;
         }
       }
+      
+      // Stop at root element
+      if (target === root) break;
       target = target.parentElement;
     }
   }
@@ -178,12 +189,25 @@ function createPen(options) {
     root.addEventListener(eventType, handleDelegatedEvent);
   });
 
+  const helpers = {
+    Piglet,
+    oink: dispatch,
+    snort,
+    emit,
+    on
+  };
+
   // MudPuddle Router: helper function to render matched route component
   function route() {
     if (!routes) return "";
     
     const currentRoute = currentState.route || "/";
     const component = routes[currentRoute] || routes["404"] || routes["/"];
+    
+    if (!component) {
+      console.warn("[PeppaJS Router] No component found for route:", currentRoute);
+      return "";
+    }
     
     if (typeof component === "function") {
       return component(currentState, helpers);
@@ -192,14 +216,8 @@ function createPen(options) {
     return component || "";
   }
 
-  const helpers = {
-    Piglet,
-    oink: dispatch,
-    snort,
-    emit,
-    on,
-    route
-  };
+  // Add route helper after defining it
+  helpers.route = route;
 
   function render() {
     const html = view(currentState, helpers);
