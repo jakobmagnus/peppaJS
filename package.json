@@ -1,15 +1,16 @@
 {
-  "name": "muddypuddles",
+  "name": "peppajs",
   "version": "0.1.0",
-  "description": "A tiny Peppa Pig-inspired UI micro-framework.",
+  "description": "PeppaJS – a Peppa Pig-inspired UI micro-framework.",
   "keywords": [
     "ui",
     "framework",
     "micro-framework",
     "peppa",
-    "peppa pig"
+    "peppa pig",
+    "peppajs"
   ],
-  "author": "Jakob Magnusson <kontakt@jakobmagnusson.se>",
+  "author": "Your Name <you@example.com>",
   "license": "MIT",
   "type": "module",
   "main": "./src/index.js",
@@ -22,12 +23,12 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/jakobmagnus/peppaJS.git"
+    "url": "git+https://github.com/your-github-username/peppajs.git"
   },
   "bugs": {
-    "url": "https://github.com/jakobmagnus/peppaJS/issues"
+    "url": "https://github.com/your-github-username/peppajs/issues"
   },
-  "homepage": "https://github.com/jakobmagnus/peppaJS#readme",
+  "homepage": "https://github.com/your-github-username/peppajs#readme",
   "scripts": {
     "test": "echo \"No tests yet\"",
     "lint": "echo \"No linter configured\""

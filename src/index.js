@@ -1,5 +1,6 @@
 // src/index.js
-// MuddyPuddles.js - Peppa-inspired JS micro-framework 🐷
+// PeppaJS - Peppa Pig-inspired JS micro-framework 🐷
+//
 // Exports (ESM & CJS via bundlers):
 //   - createPen
 //   - Piglet
@@ -51,19 +52,19 @@ function createPen(options) {
   let { root, state = {}, actions = {}, view } = options || {};
 
   if (!root) {
-    throw new Error("MuddyPuddles.createPen requires a root element or selector.");
+    throw new Error("PeppaJS.createPen requires a root element or selector.");
   }
 
   if (typeof root === "string") {
     const el = document.querySelector(root);
     if (!el) {
-      throw new Error("MuddyPuddles.createPen could not find root: " + root);
+      throw new Error("PeppaJS.createPen could not find root: " + root);
     }
     root = el;
   }
 
   if (typeof view !== "function") {
-    throw new Error("MuddyPuddles.createPen requires a view(state, helpers) function.");
+    throw new Error("PeppaJS.createPen requires a view(state, helpers) function.");
   }
 
   // Clone initial state to avoid mutating the original object by accident
@@ -104,7 +105,7 @@ function createPen(options) {
   function dispatch(actionName, payload) {
     const action = actions[actionName];
     if (typeof action !== "function") {
-      console.warn("[MuddyPuddles] No such action:", actionName);
+      console.warn("[PeppaJS] No such action:", actionName);
       return;
     }
 
@@ -165,7 +166,7 @@ function createPen(options) {
 }
 
 // Bundle up into a single object for default export and browser global
-const MuddyPuddles = {
+const PeppaJS = {
   createPen,
   Piglet,
   snort
@@ -174,10 +175,10 @@ const MuddyPuddles = {
 // Attach to globalThis in browsers for <script> tag usage
 if (typeof globalThis !== "undefined") {
   // Don't clobber an existing one if present
-  if (!globalThis.MuddyPuddles) {
-    globalThis.MuddyPuddles = MuddyPuddles;
+  if (!globalThis.PeppaJS) {
+    globalThis.PeppaJS = PeppaJS;
   }
 }
 
 export { createPen, Piglet, snort };
-export default MuddyPuddles;
+export default PeppaJS;
