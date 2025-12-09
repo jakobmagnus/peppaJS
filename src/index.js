@@ -229,6 +229,10 @@ function createPen(options) {
       window.removeEventListener("hashchange", hashChangeHandler);
     }
     
+    // Clear custom event listeners
+    Object.keys(listeners).forEach(key => {
+      listeners[key] = [];
+    });
     // Clear the root element
     root.innerHTML = "";
   }
