@@ -47,9 +47,10 @@ function Piglet(name, renderFn) {
  *  - state: initial state object
  *  - actions: { [name]: (state, payload) => newPartialState | void }
  *  - view: (state, helpers) => HTML string
+ *  - routes: optional { [path]: component } for MudPuddle router
  */
 function createPen(options) {
-  let { root, state = {}, actions = {}, view } = options || {};
+  let { root, state = {}, actions = {}, view, routes } = options || {};
 
   if (!root) {
     throw new Error("PeppaJS.createPen requires a root element or selector.");
@@ -77,6 +78,12 @@ function createPen(options) {
     }
   } catch (e) {
     currentState = state;
+  }
+
+  // Initialize route if routes are provided
+  if (routes) {
+    const hash = window.location.hash.slice(1) || "/";
+    currentState.route = hash;
   }
 
   const listeners = {};
@@ -119,23 +126,50 @@ function createPen(options) {
     snort(render);
   }
 
-  function wireOinks() {
-    const nodes = root.querySelectorAll("[data-oink]");
-    nodes.forEach((node) => {
-      const actionName = node.dataset.oink;
-      const eventName = node.dataset.oinkEvent || "click";
+  // Event delegation handler for oinks
+  function handleDelegatedEvent(ev) {
+    // Find the closest element with data-oink
+    let target = ev.target;
+    while (target && target !== root) {
+      if (target.hasAttribute && target.hasAttribute("data-oink")) {
+        const actionName = target.getAttribute("data-oink");
+        const expectedEvent = target.getAttribute("data-oink-event") || "click";
+        
+        // Only dispatch if the event type matches
+        if (ev.type === expectedEvent) {
+          const value =
+            target.getAttribute("data-oink-value") !== null
+              ? target.getAttribute("data-oink-value")
+              : target.value !== undefined
+              ? target.value
+              : undefined;
 
-      node.addEventListener(eventName, function (ev) {
-        const value =
-          node.dataset.oinkValue !== undefined
-            ? node.dataset.oinkValue
-            : node.value !== undefined
-            ? node.value
-            : undefined;
+          dispatch(actionName, { event: ev, value });
+          break;
+        }
+      }
+      target = target.parentElement;
+    }
+  }
 
-        dispatch(actionName, { event: ev, value });
-      });
-    });
+  // Setup global event delegation for standard events
+  const delegatedEvents = ["click", "change", "input", "submit", "keydown", "keyup"];
+  delegatedEvents.forEach((eventType) => {
+    root.addEventListener(eventType, handleDelegatedEvent);
+  });
+
+  // MudPuddle Router: helper function to render matched route component
+  function route() {
+    if (!routes) return "";
+    
+    const currentRoute = currentState.route || "/";
+    const component = routes[currentRoute] || routes["404"] || routes["/"];
+    
+    if (typeof component === "function") {
+      return component(currentState, { Piglet, oink: dispatch, snort, emit, on });
+    }
+    
+    return component || "";
   }
 
   function render() {
@@ -144,12 +178,21 @@ function createPen(options) {
       oink: dispatch,
       snort,
       emit,
-      on
+      on,
+      route
     };
 
     const html = view(currentState, helpers);
     root.innerHTML = html;
-    wireOinks();
+  }
+
+  // MudPuddle Router: listen for hash changes
+  if (routes) {
+    window.addEventListener("hashchange", function () {
+      const hash = window.location.hash.slice(1) || "/";
+      currentState = Object.assign({}, currentState, { route: hash });
+      snort(render);
+    });
   }
 
   // Initial render
