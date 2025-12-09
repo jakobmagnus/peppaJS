@@ -134,6 +134,10 @@ export const Introduction = (args, context) => {
       color: var(--btn-primary-bg);
     }
     
+    .intro-description {
+      font-size: 1.1rem;
+    }
+    
     .intro-card {
       background: var(--pen-bg);
       border: 3px solid var(--pen-border);
@@ -169,7 +173,7 @@ export const Introduction = (args, context) => {
   container.innerHTML = `
     <div class="intro-container">
       <h1>🐷 Welcome to PeppaJS</h1>
-      <p style="font-size: 1.1rem;">
+      <p class="intro-description">
         A tiny Peppa Pig-inspired UI micro-framework for building interactive web applications.
       </p>
       <div class="intro-card">

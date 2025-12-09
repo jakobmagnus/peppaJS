@@ -4,7 +4,8 @@
  * This module provides CSS generation for light, dark, and muddy themes.
  */
 
-export function getThemeStyles() {
+export function getThemeStyles(options = {}) {
+  const { maxWidth = '480px' } = options;
   return `
     /* Light Theme (Default) */
     [data-theme="light"] {
@@ -64,7 +65,7 @@ export function getThemeStyles() {
     }
 
     .pen {
-      max-width: 480px;
+      max-width: ${maxWidth};
       margin: 0 auto;
       background: var(--pen-bg);
       border-radius: 16px;

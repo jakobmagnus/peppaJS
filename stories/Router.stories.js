@@ -87,11 +87,7 @@ const app = createPen({
     
     // Add theme styles
     const style = document.createElement('style');
-    style.textContent = getThemeStyles() + `
-      .pen {
-        max-width: 640px;
-      }
-    `;
+    style.textContent = getThemeStyles({ maxWidth: '640px' });
     document.head.appendChild(style);
 
     // Define routes
