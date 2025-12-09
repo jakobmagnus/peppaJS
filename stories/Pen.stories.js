@@ -1,9 +1,10 @@
 import { createPen, Piglet } from '../src/index.js';
+import { getThemeStyles } from '../.storybook/theme-styles.js';
 
 export default {
   title: 'PeppaJS/Core/Pen',
   tags: ['autodocs'],
-  render: ({ initialJumps = 0, initialMood = 'happy' }) => {
+  render: ({ initialJumps = 0, initialMood = 'happy' }, context) => {
     // Define Piglet components
     const JumpCounter = Piglet('JumpCounter', function (props) {
       return `
@@ -65,72 +66,13 @@ export default {
 
     // Create a container element
     const container = document.createElement('div');
+    const theme = context?.globals?.theme || 'light';
+    container.setAttribute('data-theme', theme);
     container.className = 'pen';
     
-    // Add styles
+    // Add theme styles
     const style = document.createElement('style');
-    style.textContent = `
-      .pen {
-        max-width: 480px;
-        margin: 0 auto;
-        background: #fff7fb;
-        border-radius: 16px;
-        box-shadow: 0 8px 18px rgba(0, 0, 0, 0.08);
-        padding: 1.5rem;
-        border: 3px solid #ffc4d9;
-        font-family: system-ui, sans-serif;
-      }
-
-      .pen h1 {
-        margin-top: 0;
-        font-size: 1.6rem;
-      }
-
-      .pig-card {
-        border-radius: 12px;
-        border: 2px dashed #ffc4d9;
-        padding: 1rem;
-        margin-bottom: 1rem;
-        background: #fff;
-      }
-
-      .pig-card h2 {
-        margin-top: 0;
-        font-size: 1.2rem;
-      }
-
-      .muddy-btn {
-        padding: 0.5rem 0.9rem;
-        border-radius: 999px;
-        border: none;
-        cursor: pointer;
-        font-weight: 600;
-        margin-right: 0.5rem;
-        margin-bottom: 0.5rem;
-      }
-
-      .muddy-btn.primary {
-        background: #ff7aa2;
-        color: #fff;
-      }
-
-      .muddy-btn.secondary {
-        background: #ffd1e3;
-      }
-
-      .badge {
-        display: inline-block;
-        padding: 0.25rem 0.7rem;
-        border-radius: 999px;
-        background: #ffe69f;
-        font-size: 0.75rem;
-        margin-left: 0.4rem;
-      }
-
-      .mood {
-        font-weight: 600;
-      }
-    `;
+    style.textContent = getThemeStyles();
     document.head.appendChild(style);
 
     // Create the Pen app (root application)
