@@ -82,11 +82,14 @@ function createPen(options) {
 
   // Initialize route if routes are provided
   if (routes) {
-    const hash = window.location.hash.slice(1) || "/";
-    currentState.route = hash;
+    currentState.route = getCurrentRoute();
   }
 
   const listeners = {};
+
+  function getCurrentRoute() {
+    return window.location.hash.slice(1) || "/";
+  }
 
   function getState() {
     return currentState;
@@ -138,7 +141,7 @@ function createPen(options) {
         // Only dispatch if the event type matches
         if (ev.type === expectedEvent) {
           const value =
-            target.getAttribute("data-oink-value") !== null
+            target.hasAttribute("data-oink-value")
               ? target.getAttribute("data-oink-value")
               : target.value !== undefined
               ? target.value
@@ -189,8 +192,7 @@ function createPen(options) {
   // MudPuddle Router: listen for hash changes
   if (routes) {
     window.addEventListener("hashchange", function () {
-      const hash = window.location.hash.slice(1) || "/";
-      currentState = Object.assign({}, currentState, { route: hash });
+      currentState = Object.assign({}, currentState, { route: getCurrentRoute() });
       snort(render);
     });
   }
