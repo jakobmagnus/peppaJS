@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>MuddyPuddles.js Demo</title>
+    <style>
+      body {
+        font-family: system-ui, sans-serif;
+        background: linear-gradient(#b3e6ff, #fdf5ff);
+        margin: 0;
+        padding: 2rem;
+      }
+
+      .pen {
+        max-width: 480px;
+        margin: 0 auto;
+        background: #fff7fb;
+        border-radius: 16px;
+        box-shadow: 0 8px 18px rgba(0, 0, 0, 0.08);
+        padding: 1.5rem;
+        border: 3px solid #ffc4d9;
+      }
+
+      .pen h1 {
+        margin-top: 0;
+        font-size: 1.6rem;
+      }
+
+      .pig-card {
+        border-radius: 12px;
+        border: 2px dashed #ffc4d9;
+        padding: 1rem;
+        margin-bottom: 1rem;
+        background: #fff;
+      }
+
+      .pig-card h2 {
+        margin-top: 0;
+        font-size: 1.2rem;
+      }
+
+      .muddy-btn {
+        padding: 0.5rem 0.9rem;
+        border-radius: 999px;
+        border: none;
+        cursor: pointer;
+        font-weight: 600;
+        margin-right: 0.5rem;
+      }
+
+      .muddy-btn.primary {
+        background: #ff7aa2;
+        color: #fff;
+      }
+
+      .muddy-btn.secondary {
+        background: #ffd1e3;
+      }
+
+      .badge {
+        display: inline-block;
+        padding: 0.25rem 0.7rem;
+        border-radius: 999px;
+        background: #ffe69f;
+        font-size: 0.75rem;
+        margin-left: 0.4rem;
+      }
+
+      .mood {
+        font-weight: 600;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app" class="pen"></div>
+
+    <!-- Using local source version via ES module -->
+    <script type="module" src="./main.js"></script>
+  </body>
+</html>

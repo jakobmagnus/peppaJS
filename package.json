@@ -1,0 +1,38 @@
+{
+  "name": "muddypuddles",
+  "version": "0.1.0",
+  "description": "A tiny Peppa Pig-inspired UI micro-framework.",
+  "keywords": [
+    "ui",
+    "framework",
+    "micro-framework",
+    "peppa",
+    "peppa pig"
+  ],
+  "author": "Jakob Magnusson <kontakt@jakobmagnusson.se>",
+  "license": "MIT",
+  "type": "module",
+  "main": "./src/index.js",
+  "module": "./src/index.js",
+  "exports": {
+    ".": "./src/index.js"
+  },
+  "files": [
+    "src"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jakobmagnus/peppaJS.git"
+  },
+  "bugs": {
+    "url": "https://github.com/jakobmagnus/peppaJS/issues"
+  },
+  "homepage": "https://github.com/jakobmagnus/peppaJS#readme",
+  "scripts": {
+    "test": "echo \"No tests yet\"",
+    "lint": "echo \"No linter configured\""
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
