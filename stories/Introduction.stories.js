@@ -1,3 +1,5 @@
+import { getThemeStyles } from '../.storybook/theme-styles.js';
+
 export default {
   title: 'PeppaJS/Introduction',
   tags: ['autodocs'],
@@ -112,25 +114,75 @@ Explore the stories to see PeppaJS in action!
   },
 };
 
-export const Introduction = () => {
+export const Introduction = (args, context) => {
+  const theme = context?.globals?.theme || 'light';
   const container = document.createElement('div');
+  container.setAttribute('data-theme', theme);
+  
+  // Add theme styles
+  const style = document.createElement('style');
+  style.textContent = getThemeStyles() + `
+    .intro-container {
+      max-width: 600px;
+      margin: 0 auto;
+      font-family: system-ui, sans-serif;
+      padding: 2rem;
+      color: var(--text-primary);
+    }
+    
+    .intro-container h1 {
+      color: var(--btn-primary-bg);
+    }
+    
+    .intro-card {
+      background: var(--pen-bg);
+      border: 3px solid var(--pen-border);
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-top: 1.5rem;
+    }
+    
+    .intro-card h2 {
+      margin-top: 0;
+      color: var(--btn-primary-bg);
+    }
+    
+    .intro-card ol {
+      line-height: 1.8;
+      color: var(--text-secondary);
+    }
+    
+    .tip-box {
+      margin-top: 1.5rem;
+      padding: 1rem;
+      background: var(--badge-bg);
+      border-radius: 8px;
+    }
+    
+    .tip-box p {
+      margin: 0;
+      color: var(--text-primary);
+    }
+  `;
+  document.head.appendChild(style);
+  
   container.innerHTML = `
-    <div style="max-width: 600px; margin: 0 auto; font-family: system-ui, sans-serif; padding: 2rem;">
-      <h1 style="color: #ff7aa2;">🐷 Welcome to PeppaJS</h1>
+    <div class="intro-container">
+      <h1>🐷 Welcome to PeppaJS</h1>
       <p style="font-size: 1.1rem;">
         A tiny Peppa Pig-inspired UI micro-framework for building interactive web applications.
       </p>
-      <div style="background: #fff7fb; border: 3px solid #ffc4d9; border-radius: 12px; padding: 1.5rem; margin-top: 1.5rem;">
-        <h2 style="margin-top: 0; color: #ff7aa2;">Quick Start</h2>
-        <ol style="line-height: 1.8;">
+      <div class="intro-card">
+        <h2>Quick Start</h2>
+        <ol>
           <li>Explore the <strong>Pen</strong> stories to see the full application</li>
           <li>Check out individual <strong>Piglet</strong> component stories</li>
           <li>Learn about routing with the <strong>Router</strong> examples</li>
         </ol>
       </div>
-      <div style="margin-top: 1.5rem; padding: 1rem; background: #ffe69f; border-radius: 8px;">
-        <p style="margin: 0;">
-          <strong>💡 Tip:</strong> All stories are interactive! Try clicking buttons and interacting with components.
+      <div class="tip-box">
+        <p>
+          <strong>💡 Tip:</strong> All stories are interactive! Try clicking buttons and interacting with components. Switch themes using the toolbar above!
         </p>
       </div>
     </div>
