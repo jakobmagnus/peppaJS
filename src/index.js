@@ -80,15 +80,15 @@ function createPen(options) {
     currentState = state;
   }
 
-  // Initialize route if routes are provided
-  if (routes) {
-    currentState.route = getCurrentRoute();
-  }
-
   const listeners = {};
 
   function getCurrentRoute() {
     return window.location.hash.slice(1) || "/";
+  }
+
+  // Initialize route if routes are provided
+  if (routes) {
+    currentState.route = getCurrentRoute();
   }
 
   function getState() {
@@ -126,6 +126,12 @@ function createPen(options) {
       currentState = Object.assign({}, currentState, result);
     }
 
+    snort(render);
+  }
+
+  // Internal state update for router
+  function updateState(partialState) {
+    currentState = Object.assign({}, currentState, partialState);
     snort(render);
   }
 
@@ -169,22 +175,22 @@ function createPen(options) {
     const component = routes[currentRoute] || routes["404"] || routes["/"];
     
     if (typeof component === "function") {
-      return component(currentState, { Piglet, oink: dispatch, snort, emit, on });
+      return component(currentState, helpers);
     }
     
     return component || "";
   }
 
-  function render() {
-    const helpers = {
-      Piglet,
-      oink: dispatch,
-      snort,
-      emit,
-      on,
-      route
-    };
+  const helpers = {
+    Piglet,
+    oink: dispatch,
+    snort,
+    emit,
+    on,
+    route
+  };
 
+  function render() {
     const html = view(currentState, helpers);
     root.innerHTML = html;
   }
@@ -192,8 +198,7 @@ function createPen(options) {
   // MudPuddle Router: listen for hash changes
   if (routes) {
     window.addEventListener("hashchange", function () {
-      currentState = Object.assign({}, currentState, { route: getCurrentRoute() });
-      snort(render);
+      updateState({ route: getCurrentRoute() });
     });
   }
 
