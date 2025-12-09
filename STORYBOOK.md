@@ -22,6 +22,27 @@ npm run build-storybook
 
 The built files will be output to the `storybook-static/` directory.
 
+## Deploying to Vercel
+
+This repository includes a `vercel.json` configuration file for easy deployment to Vercel.
+
+### Deploy Steps:
+
+1. **Connect your repository to Vercel:**
+   - Go to [vercel.com](https://vercel.com) and sign in
+   - Click "Add New Project"
+   - Import your GitHub repository
+
+2. **Vercel will automatically:**
+   - Detect the `vercel.json` configuration
+   - Run `npm install` to install dependencies
+   - Run `npm run build-storybook` to build Storybook
+   - Deploy the `storybook-static/` directory
+
+3. **No additional configuration needed!** The `vercel.json` file handles everything.
+
+Your Storybook will be live at: `https://your-project-name.vercel.app`
+
 ## Available Stories
 
 ### Introduction
