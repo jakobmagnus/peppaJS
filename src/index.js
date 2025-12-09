@@ -153,9 +153,13 @@ function createPen(options) {
 
   // Event delegation handler for oinks
   function handleDelegatedEvent(ev) {
-    // Find the closest element with data-oink
+    // Find the closest element with data-oink within the root
     let target = ev.target;
-    while (target && (target === root || root.contains(target))) {
+    
+    // Only check elements within the root component tree
+    if (!root.contains(target)) return;
+    
+    while (target) {
       if (target.hasAttribute("data-oink")) {
         const actionName = target.getAttribute("data-oink");
         const expectedEvent = target.getAttribute("data-oink-event") || "click";
