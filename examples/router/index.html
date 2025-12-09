@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>PeppaJS Router Demo</title>
+    <style>
+      body {
+        font-family: system-ui, sans-serif;
+        background: linear-gradient(#b3e6ff, #fdf5ff);
+        margin: 0;
+        padding: 2rem;
+      }
+
+      .pen {
+        max-width: 640px;
+        margin: 0 auto;
+        background: #fff7fb;
+        border-radius: 16px;
+        box-shadow: 0 8px 18px rgba(0, 0, 0, 0.08);
+        padding: 1.5rem;
+        border: 3px solid #ffc4d9;
+      }
+
+      .pen h1 {
+        margin-top: 0;
+        font-size: 1.6rem;
+      }
+
+      .nav {
+        display: flex;
+        gap: 0.5rem;
+        margin-bottom: 1.5rem;
+        padding-bottom: 1rem;
+        border-bottom: 2px solid #ffc4d9;
+      }
+
+      .nav a {
+        padding: 0.5rem 1rem;
+        border-radius: 999px;
+        text-decoration: none;
+        background: #ffd1e3;
+        color: #333;
+        font-weight: 600;
+        transition: background 0.2s;
+      }
+
+      .nav a:hover {
+        background: #ff7aa2;
+        color: #fff;
+      }
+
+      .nav a.active {
+        background: #ff7aa2;
+        color: #fff;
+      }
+
+      .page-content {
+        border-radius: 12px;
+        border: 2px dashed #ffc4d9;
+        padding: 1.5rem;
+        background: #fff;
+      }
+
+      .page-content h2 {
+        margin-top: 0;
+        font-size: 1.3rem;
+      }
+
+      .muddy-btn {
+        padding: 0.5rem 0.9rem;
+        border-radius: 999px;
+        border: none;
+        cursor: pointer;
+        font-weight: 600;
+        margin-right: 0.5rem;
+        background: #ff7aa2;
+        color: #fff;
+      }
+
+      .badge {
+        display: inline-block;
+        padding: 0.25rem 0.7rem;
+        border-radius: 999px;
+        background: #ffe69f;
+        font-size: 0.75rem;
+        margin-left: 0.4rem;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app" class="pen"></div>
+
+    <!-- Using local source version via ES module -->
+    <script type="module" src="./main.js"></script>
+  </body>
+</html>
