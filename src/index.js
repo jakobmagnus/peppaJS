@@ -161,6 +161,9 @@ function createPen(options) {
               ? target.value
               : undefined;
 
+          if (ev.type === "submit") {
+            ev.preventDefault();
+          }
           dispatch(actionName, { event: ev, value });
           break;
         }
